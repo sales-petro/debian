@@ -1,0 +1,24 @@
+[Unit]
+Description=ngrok tunnel HubSaaS backend (:3021)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=__HOME__
+
+ExecStartPre=__HOME__/debian/wait-ngrok-port.sh 3021
+ExecStart=__HOME__/debian/start-ngrok-tunnel.sh backend
+ExecStop=/bin/kill -SIGINT $MAINPID
+
+Restart=always
+RestartSec=10
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=20
+
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Install]
+WantedBy=default.target
