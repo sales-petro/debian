@@ -10,6 +10,9 @@ BIN_DIR="$HOME/bin"
 CONFIG_DIR="$HOME/.config/ngrok"
 USER_SYSTEMD_DIR="$HOME/.config/systemd/user"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/debian-root.sh
+source "$SCRIPT_DIR/../lib/debian-root.sh"
+SYSTEMD_DIR="$DEBIAN_ROOT/systemd"
 
 if [ -z "$AUTHTOKEN" ]; then
   echo "Uso: $0 <NGROK_AUTHTOKEN> [porta_inicial]"
@@ -41,7 +44,7 @@ chmod 600 "$CONFIG_DIR/ngrok.yml"
 
 chmod +x "$SCRIPT_DIR/wait-ngrok-port.sh" "$SCRIPT_DIR/start-ngrok.sh" "$SCRIPT_DIR/ngrok-port.sh"
 
-SERVICE_SRC="$SCRIPT_DIR/hubsaas-ngrok.service"
+SERVICE_SRC="$SYSTEMD_DIR/hubsaas-ngrok.service"
 SERVICE_DST="$USER_SYSTEMD_DIR/hubsaas-ngrok.service"
 
 sed \
@@ -58,7 +61,7 @@ if command -v loginctl &>/dev/null && loginctl show-user "$USER" -p Linger 2>/de
 else
   echo ""
   echo "AVISO: para iniciar no boot sem login, rode UMA VEZ:"
-  echo "  sudo ~/debian/enable-ngrok-boot.sh"
+  echo "  sudo ~/debian/scripts/ngrok/enable-ngrok-boot.sh"
 fi
 
 echo ""

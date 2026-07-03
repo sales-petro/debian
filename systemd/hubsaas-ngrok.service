@@ -1,5 +1,5 @@
 [Unit]
-Description=ngrok tunnel HubSaaS frontend (:3020)
+Description=ngrok tunnel HubSaaS via nginx (:80)
 After=network-online.target
 Wants=network-online.target
 
@@ -7,8 +7,8 @@ Wants=network-online.target
 Type=simple
 WorkingDirectory=__HOME__
 
-ExecStartPre=__HOME__/debian/wait-ngrok-port.sh 3020
-ExecStart=__HOME__/debian/start-ngrok-tunnel.sh frontend
+ExecStartPre=__HOME__/debian/scripts/ngrok/wait-ngrok-port.sh
+ExecStart=__HOME__/debian/scripts/ngrok/start-ngrok.sh
 ExecStop=/bin/kill -SIGINT $MAINPID
 
 Restart=always

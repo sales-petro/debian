@@ -1,0 +1,74 @@
+#!/bin/bash
+# CLI unificada — delega para scripts/<feature>/.
+# Uso: bash debian help
+#      bash debian update
+#      bash debian test-vite-proxy
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+run_sh() {
+  exec "$ROOT/$1" "${@:2}"
+}
+
+run_py() {
+  exec python3 "$ROOT/$1" "${@:2}"
+}
+
+case "${1:-}" in
+  update)                    run_sh scripts/deploy/update.sh "${@:2}" ;;
+  apply-vps-env)             run_sh scripts/deploy/apply-vps-env.sh "${@:2}" ;;
+  run-update)                run_sh scripts/deploy/run-update.sh "${@:2}" ;;
+  configure-hubsaas-env)     run_sh scripts/env/configure-hubsaas-env.sh "${@:2}" ;;
+  configure-hubsaas-ddns)    run_sh scripts/env/configure-hubsaas-ddns.sh "${@:2}" ;;
+  apply-backend-env-ngrok)   run_sh scripts/env/apply-backend-env-ngrok.sh "${@:2}" ;;
+  setup-postgres-remote)     run_sh scripts/postgres/setup-postgres-remote.sh "${@:2}" ;;
+  diag-postgres)             run_sh scripts/postgres/diag-postgres.sh "${@:2}" ;;
+  install-ngrok)             run_sh scripts/ngrok/install-ngrok.sh "${@:2}" ;;
+  install-ngrok-dual)        run_sh scripts/ngrok/install-ngrok-dual.sh "${@:2}" ;;
+  enable-ngrok-boot)         run_sh scripts/ngrok/enable-ngrok-boot.sh "${@:2}" ;;
+  ngrok-port)                run_sh scripts/ngrok/ngrok-port.sh "${@:2}" ;;
+  ngrok-status)              run_sh scripts/ngrok/ngrok-status.sh "${@:2}" ;;
+  start-ngrok)               run_sh scripts/ngrok/start-ngrok.sh "${@:2}" ;;
+  start-ngrok-tunnel)        run_sh scripts/ngrok/start-ngrok-tunnel.sh "${@:2}" ;;
+  wait-ngrok-port)           run_sh scripts/ngrok/wait-ngrok-port.sh "${@:2}" ;;
+  setup-nginx-stack)         run_sh scripts/nginx/setup-nginx-stack.sh "${@:2}" ;;
+  install-nginx)             run_sh scripts/nginx/install-nginx.sh "${@:2}" ;;
+  activate-ngrok-nginx)      run_sh scripts/nginx/activate-ngrok-nginx.sh "${@:2}" ;;
+  diag-login-remote)         run_sh scripts/login/diag-login-remote.sh "${@:2}" ;;
+  patch-vite-nginx)          run_py scripts/patches/patch-vite-nginx.py "${@:2}" ;;
+  patch-auth-jti)            run_py scripts/patches/patch-auth-jti.py "${@:2}" ;;
+  patch-backend)             run_py scripts/patches/patch-backend.py "${@:2}" ;;
+  fix-start)                 run_py scripts/patches/fix-start.py "${@:2}" ;;
+  test-vite-proxy)           run_py scripts/login/test-vite-proxy.py "${@:2}" ;;
+  test-tenant-slug)          run_py scripts/login/test-tenant-slug.py "${@:2}" ;;
+  test-login)                run_py scripts/login/test-login.py "${@:2}" ;;
+  test-login-full)           run_py scripts/login/test-login-full.py "${@:2}" ;;
+  test-full-login-ngrok)     run_py scripts/login/test-full-login-ngrok.py "${@:2}" ;;
+  test-ngrok-header)         run_py scripts/login/test-ngrok-header.py "${@:2}" ;;
+  test-passwords)            run_py scripts/login/test-passwords.py "${@:2}" ;;
+  check-user)                run_py scripts/login/check-user.py "${@:2}" ;;
+  check-password)            run_py scripts/login/check-password.py "${@:2}" ;;
+  check-tokens)              run_py scripts/login/check-tokens.py "${@:2}" ;;
+  ""|help|-h|--help)
+    cat <<'EOF'
+Comandos (scripts/<feature>/):
+
+  Deploy:     update, apply-vps-env, run-update
+  Env:        configure-hubsaas-env, configure-hubsaas-ddns, apply-backend-env-ngrok
+  Postgres:   setup-postgres-remote, diag-postgres
+  Ngrok:      install-ngrok, install-ngrok-dual, enable-ngrok-boot, ngrok-port, ngrok-status
+  Nginx:      setup-nginx-stack, install-nginx, activate-ngrok-nginx
+  Login:      test-vite-proxy, test-tenant-slug, test-login, check-user, ...
+  Patches:    patch-vite-nginx, patch-auth-jti, patch-backend, fix-start
+
+Uso: bash debian <comando> [args...]
+     bash scripts/deploy/update.sh
+EOF
+    exit 0
+    ;;
+  *)
+    echo "Comando desconhecido: $1" >&2
+    echo "Rode: bash debian help" >&2
+    exit 1
+    ;;
+esac

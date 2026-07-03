@@ -1,16 +1,17 @@
 #!/bin/bash
-# Atualiza .env do backend e frontend para uso com nginx + ngrok.
-# Uso: ./configure-hubsaas-env.sh [URL_PUBLICA]
-# Ex.: ./configure-hubsaas-env.sh https://prepaid-untying-capsule.ngrok-free.dev
+# Configura .env para acesso direto via nsys.ddns.net (portas 3020/3021).
+# Uso: ./configure-hubsaas-ddns.sh [URL_PUBLICA]
+# Ex.: ./configure-hubsaas-ddns.sh http://nsys.ddns.net:3020
 
 set -euo pipefail
 
-PUBLIC_URL="${1:-https://prepaid-untying-capsule.ngrok-free.dev}"
+PUBLIC_URL="${1:-http://nsys.ddns.net:3020}"
 PUBLIC_URL="${PUBLIC_URL%/}"
 
 HUBSAAS_DIR="${HUBSAAS_DIR:-$HOME/hubsaas}"
 BACKEND_ENV="$HUBSAAS_DIR/apps/backend/.env"
 FRONTEND_ENV="$HUBSAAS_DIR/apps/frontend/.env"
+DEFAULT_TENANT="${DEFAULT_TENANT_SLUG:-hubsaas}"
 
 set_env_var() {
   local file="$1"
@@ -29,16 +30,20 @@ set_env_var() {
   fi
 }
 
-echo "== Configurando backend =="
+echo "== Backend =="
 set_env_var "$BACKEND_ENV" "PORT" "3021"
 set_env_var "$BACKEND_ENV" "FRONTEND_URL" "$PUBLIC_URL"
 
-echo "== Configurando frontend =="
+echo "== Frontend =="
 set_env_var "$FRONTEND_ENV" "PORT" "3020"
 set_env_var "$FRONTEND_ENV" "VITE_API_URL" "/v1/"
+set_env_var "$FRONTEND_ENV" "VITE_DEFAULT_TENANT_SLUG" "$DEFAULT_TENANT"
 
 echo ""
-echo "Backend:  PORT=3021, FRONTEND_URL=$PUBLIC_URL"
-echo "Frontend: PORT=3020, VITE_API_URL=/v1/"
+echo "Configurado:"
+echo "  FRONTEND_URL=$PUBLIC_URL"
+echo "  VITE_API_URL=/v1/"
+echo "  VITE_DEFAULT_TENANT_SLUG=$DEFAULT_TENANT"
 echo ""
-echo "Reinicie o hubsaas após alterar: sudo systemctl restart hubsaas"
+echo "Reinicie o hubsaas: sudo systemctl restart hubsaas"
+echo "Ou, se usar pnpm dev manual: pkill -f vite; pkill -f 'main.js'; e suba de novo."

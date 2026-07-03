@@ -1,0 +1,83 @@
+# Templates VPS — versionar README e .env.example; nunca os .env reais
+env-servidor/**/.env
+env-servidor/**/.env.*
+!env-servidor/**/.env.example
+
+# Dependencies
+node_modules/
+
+# Build
+.build/
+.dist/
+**/.dist/
+.turbo/
+packages/contracts/dist/
+
+# Logs
+.logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+/tmp/hubsaas-*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Test / Python
+coverage/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# Variáveis de ambiente — nunca versionar segredos
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+.env.prompt
+.env.local
+.env.*.local
+
+# Segredos e credenciais
+*.pem
+*.key
+*.p12
+credentials.json
+secrets/
+ngrok-secrets.*
+*.secrets
+*.local.sh
+
+# Ngrok — config local com authtoken (se copiada para o repo)
+.ngrok/
+ngrok.yml
+**/ngrok.yml
+
+# Cache local
+.cache/
+
+# Backups e temporários
+*.bak
+*.tmp
+*~
+*.swp
+
+# Windows — scripts locais não versionados
+ngrok-dev.ps1
+*.ps1.local
+
+# Cursor — manter plans/skills do projeto; ignorar cache local
+.cursor/.cache/

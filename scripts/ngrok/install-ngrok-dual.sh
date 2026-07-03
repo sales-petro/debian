@@ -16,6 +16,9 @@ BIN_DIR="$HOME/bin"
 CONFIG_DIR="$HOME/.config/ngrok"
 USER_SYSTEMD_DIR="$HOME/.config/systemd/user"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=../lib/debian-root.sh
+source "$SCRIPT_DIR/../lib/debian-root.sh"
+SYSTEMD_DIR="$DEBIAN_ROOT/systemd"
 
 mkdir -p "$BIN_DIR" "$CONFIG_DIR" "$USER_SYSTEMD_DIR"
 export PATH="$BIN_DIR:$PATH"
@@ -51,7 +54,7 @@ chmod +x "$SCRIPT_DIR/wait-ngrok-port.sh" "$SCRIPT_DIR/start-ngrok-tunnel.sh" "$
 
 install_unit() {
   local role="$1"
-  local src="$SCRIPT_DIR/hubsaas-${role}.service"
+  local src="$SYSTEMD_DIR/hubsaas-${role}.service"
   local dst="$USER_SYSTEMD_DIR/hubsaas-${role}.service"
   sed -e "s|__HOME__|$HOME|g" "$src" > "$dst"
 }
@@ -72,7 +75,7 @@ if command -v loginctl &>/dev/null && loginctl show-user "$USER" -p Linger 2>/de
 else
   echo ""
   echo "AVISO: para boot sem login, rode UMA VEZ:"
-  echo "  sudo ~/debian/enable-ngrok-boot.sh"
+  echo "  sudo ~/debian/scripts/ngrok/enable-ngrok-boot.sh"
 fi
 
 echo ""

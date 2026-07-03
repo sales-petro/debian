@@ -4,23 +4,25 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PUBLIC_URL="${1:-https://prepaid-untying-capsule.ngrok-free.dev}"
+# shellcheck source=../lib/debian-root.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../lib/debian-root.sh"
+NGINX_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PUBLIC_URL="${1:-https://cytoplasm-quicken-asparagus.ngrok-free.dev}"
 
 echo "== 1/5 Variáveis de ambiente =="
-"$SCRIPT_DIR/configure-hubsaas-env.sh" "$PUBLIC_URL"
+"$DEBIAN_ROOT/scripts/env/configure-hubsaas-env.sh" "$PUBLIC_URL"
 
 echo ""
 echo "== 2/5 Vite (proxy + allowedHosts) =="
-python3 "$SCRIPT_DIR/patch-vite-nginx.py"
+python3 "$DEBIAN_ROOT/scripts/patches/patch-vite-nginx.py"
 
 echo ""
 echo "== 3/5 Nginx =="
 if sudo -n true 2>/dev/null; then
-  sudo "$SCRIPT_DIR/install-nginx.sh"
+  sudo "$NGINX_DIR/install-nginx.sh"
 else
   echo "sudo pede senha — rode manualmente:"
-  echo "  sudo $SCRIPT_DIR/install-nginx.sh"
+  echo "  sudo $NGINX_DIR/install-nginx.sh"
 fi
 
 echo ""
@@ -32,8 +34,8 @@ if curl -sf -o /dev/null "http://127.0.0.1/v1/health" 2>/dev/null; then
   echo 80 > "$HOME/.config/ngrok/hubsaas-port"
 else
   echo "Nginx hubsaas ainda não configurado → ngrok temporário na porta 3020 (vite proxy /v1/)"
-  echo "Depois de: sudo $SCRIPT_DIR/install-nginx.sh"
-  echo "Rode: $SCRIPT_DIR/activate-ngrok-nginx.sh"
+  echo "Depois de: sudo $NGINX_DIR/install-nginx.sh"
+  echo "Rode: $NGINX_DIR/activate-ngrok-nginx.sh"
   echo 3020 > "$HOME/.config/ngrok/hubsaas-port"
 fi
 
@@ -65,4 +67,4 @@ ss -tln | grep -E ':80|:3020|:3021' || true
 curl -s -o /dev/null -w "nginx /       → %{http_code}\n" http://127.0.0.1/ || true
 curl -s -o /dev/null -w "nginx /v1/health → %{http_code}\n" http://127.0.0.1/v1/health || true
 echo ""
-"$SCRIPT_DIR/ngrok-port.sh" status 2>/dev/null || true
+"$DEBIAN_ROOT/scripts/ngrok/ngrok-port.sh" status 2>/dev/null || true

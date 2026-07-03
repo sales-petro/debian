@@ -10,7 +10,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONF_SRC="$SCRIPT_DIR/nginx/hubsaas.conf"
+CONF_SRC="$SCRIPT_DIR/hubsaas.conf"
 CONF_DST="/etc/nginx/sites-available/hubsaas"
 
 if [ ! -f "$CONF_SRC" ]; then
