@@ -35,6 +35,8 @@ case "${1:-}" in
   setup-nginx-stack)         run_sh scripts/nginx/setup-nginx-stack.sh "${@:2}" ;;
   install-nginx)             run_sh scripts/nginx/install-nginx.sh "${@:2}" ;;
   activate-ngrok-nginx)      run_sh scripts/nginx/activate-ngrok-nginx.sh "${@:2}" ;;
+  hubsaas-op)                run_sh scripts/operator/hubsaas-op.sh "${@:2}" ;;
+  install-operator-sudoers)  run_sh scripts/operator/install-operator-sudoers.sh "${@:2}" ;;
   diag-login-remote)         run_sh scripts/login/diag-login-remote.sh "${@:2}" ;;
   patch-vite-nginx)          run_py scripts/patches/patch-vite-nginx.py "${@:2}" ;;
   patch-auth-jti)            run_py scripts/patches/patch-auth-jti.py "${@:2}" ;;
@@ -54,7 +56,7 @@ case "${1:-}" in
     cat <<'EOF'
 Comandos (scripts/<feature>/):
 
-  Deploy:     update, apply-vps-env, run-update
+  Deploy:     update, apply-vps-env, run-update, hubsaas-op, install-operator-sudoers
   Env:        configure-hubsaas-env, configure-hubsaas-ddns, install-noip-ddclient, apply-backend-env-ngrok
   Postgres:   setup-postgres-remote, diag-postgres
   Ngrok:      install-ngrok, install-ngrok-dual, enable-ngrok-boot, ngrok-port, ngrok-status

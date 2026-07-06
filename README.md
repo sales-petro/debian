@@ -23,6 +23,7 @@ debian/
 │   ├── login/
 │   ├── nginx/
 │   ├── ngrok/
+│   ├── operator/
 │   ├── patches/
 │   ├── postgres/
 │   └── lib/
@@ -35,6 +36,11 @@ debian/
 # Deploy
 bash ~/debian/scripts/deploy/update.sh
 bash ~/debian/debian update
+
+# Delegado (igor) — opera stack do celio sem duplicar processos
+bash ~/debian/debian hubsaas-op status
+bash ~/debian/debian hubsaas-op update
+sudo bash ~/debian/debian install-operator-sudoers igor   # uma vez, no VPS
 
 # Aplicar .env do env-servidor + backup
 bash ~/debian/scripts/deploy/apply-vps-env.sh
@@ -56,6 +62,7 @@ bash ~/debian/scripts/postgres/setup-postgres-remote.sh
 | Feature | Pasta | Scripts |
 |---------|-------|---------|
 | Deploy | `scripts/deploy/` | `update.sh`, `apply-vps-env.sh`, `run-update.sh` |
+| Operador | `scripts/operator/` | `hubsaas-op.sh`, `install-operator-sudoers.sh` |
 | Env | `scripts/env/` | `configure-hubsaas-env.sh`, `configure-hubsaas-ddns.sh`, `install-noip-ddclient.sh`, `apply-backend-env-ngrok.sh` |
 | Ngrok | `scripts/ngrok/` | `install-ngrok-dual.sh`, `ngrok-port.sh`, `enable-ngrok-boot.sh`, … |
 | Nginx | `scripts/nginx/` | `install-nginx.sh`, `setup-nginx-stack.sh`, `activate-ngrok-nginx.sh` |
@@ -76,6 +83,7 @@ Cada pasta tem `README.md` com detalhes.
 
 - [docs/deploy/hubsaas-vps-login.md](docs/deploy/hubsaas-vps-login.md)
 - [docs/system/create-admin-user.md](docs/system/create-admin-user.md)
+- [docs/system/hubsaas-operator.md](docs/system/hubsaas-operator.md) — igor opera como celio
 - [.cursor/skills/hubsaas-vps-deploy/SKILL.md](.cursor/skills/hubsaas-vps-deploy/SKILL.md)
 
 ## O que não vai para o git

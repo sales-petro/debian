@@ -23,6 +23,7 @@ Raiz do repo debian: variável `DEBIAN_ROOT` via `scripts/lib/debian-root.sh`.
 | Tarefa | Pasta | Entrada rápida |
 |--------|-------|----------------|
 | Deploy | `scripts/deploy/` | `bash ~/debian/scripts/deploy/update.sh` |
+| Delegado (igor→celio) | `scripts/operator/` | `bash ~/debian/debian hubsaas-op update` |
 | Aplicar .env VPS | `scripts/deploy/` | `bash ~/debian/scripts/deploy/apply-vps-env.sh` |
 | Config ngrok/ddns | `scripts/env/` | `scripts/env/configure-hubsaas-env.sh` |
 | Testar login | `scripts/login/` | `bash ~/debian/debian test-vite-proxy` |
@@ -61,4 +62,5 @@ Se `update.sh` restaurar `demo-alpha`, rodar `apply-vps-env.sh` de novo.
 
 - [README.md](../../README.md)
 - [docs/deploy/hubsaas-vps-login.md](../../docs/deploy/hubsaas-vps-login.md)
+- [docs/system/hubsaas-operator.md](../../docs/system/hubsaas-operator.md) — igor opera como celio
 - [.cursor/plans/fix-vps-login-env.plan.md](../../plans/fix-vps-login-env.plan.md)

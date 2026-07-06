@@ -65,6 +65,14 @@ sudo whoami
 
 Deve retornar `root`.
 
+## HubSaaS — delegado sem duplicar processos
+
+Se o novo usuário deve **operar o HubSaaS do celio** (deploy, restart, ngrok) sem subir uma segunda instância, veja [hubsaas-operator.md](hubsaas-operator.md):
+
+```bash
+sudo bash /home/celio/debian/scripts/operator/install-operator-sudoers.sh igor
+```
+
 ## Segurança
 
 - Use senhas fortes; evite deixar credenciais em arquivos versionados no git.
