@@ -1,9 +1,9 @@
-# HubSaaS — login no VPS Debian (nsys.ddns.net)
+# HubSaaS — login no VPS Debian (hubswp.ddns.net)
 
 Documento para o time de **backend/frontend** corrigir no repositório `hubsaas`, publicar no git e atualizar o servidor.
 
 **Data do diagnóstico:** 2026-06-17  
-**URL pública:** http://nsys.ddns.net:3020/login  
+**URL pública:** http://hubswp.ddns.net:3020/login  
 **Servidor:** Debian `192.168.100.220` (usuário `celio`, app em `~/hubsaas`)
 
 ---
@@ -58,7 +58,7 @@ Backend `.env` no servidor:
 FRONTEND_URL=https://prepaid-untying-capsule.ngrok-free.dev
 ```
 
-Para deploy em `http://nsys.ddns.net:3020`, isso deve ser a URL pública real (CORS, links, redirects).
+Para deploy em `http://hubswp.ddns.net:3020`, isso deve ser a URL pública real (CORS, links, redirects).
 
 ### 3. Restore do banco não é o problema do login
 
@@ -71,8 +71,8 @@ Após restore, o usuário e os tenants existem. A API autentica com `demo1234` q
 No SSH do Debian:
 
 ```bash
-cd ~/hubsaas
-bash configure-hubsaas-ddns.sh http://nsys.ddns.net:3020
+cd ~/debian
+bash debian configure-hubsaas-ddns http://hubswp.ddns.net:3020
 ```
 
 Ou manualmente em `apps/frontend/.env`:
@@ -84,7 +84,7 @@ VITE_DEFAULT_TENANT_SLUG=hubsaas
 E em `apps/backend/.env`:
 
 ```env
-FRONTEND_URL=http://nsys.ddns.net:3020
+FRONTEND_URL=http://hubswp.ddns.net:3020
 ```
 
 Reiniciar (variáveis `VITE_*` só aplicam após reinício do Vite):
@@ -129,7 +129,7 @@ Patch de referência: `scripts/patches/patch-vite-nginx.py`.
 Incluir em `allowedHosts`:
 
 ```ts
-allowedHosts: ['nsys.ddns.net', 'localhost', '.ngrok-free.dev']
+allowedHosts: ['hubswp.ddns.net', 'localhost', '.ngrok-free.dev']
 ```
 
 ### Backend — refresh token com `jti` único
@@ -151,7 +151,7 @@ const refreshToken = this.jwtService.sign(
 
 Garantir que `FRONTEND_URL` (e lista de origens, se houver) aceite:
 
-- `http://nsys.ddns.net:3020`
+- `http://hubswp.ddns.net:3020`
 - URL ngrok quando usada
 - `http://localhost:3020` em dev
 
@@ -178,7 +178,7 @@ DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=<senha>
 DATABASE_NAME=hubsaas
 REDIS_URL=redis://127.0.0.1:6379
-FRONTEND_URL=http://nsys.ddns.net:3020
+FRONTEND_URL=http://hubswp.ddns.net:3020
 AUTH_BOOTSTRAP_ENABLED=false
 ```
 
@@ -219,7 +219,7 @@ Scripts úteis em `scripts/<feature>/`:
 
 | Script | Função |
 |--------|--------|
-| `scripts/env/configure-hubsaas-ddns.sh` | Ajusta `.env` para nsys.ddns.net |
+| `scripts/env/configure-hubsaas-ddns.sh` | Ajusta `.env` para hubswp.ddns.net |
 | `scripts/env/configure-hubsaas-env.sh` | Ajusta para URL ngrok (cytoplasm) |
 | `scripts/deploy/update.sh` | pull + build + migrations + restart |
 | `scripts/deploy/apply-vps-env.sh` | Copia `env-servidor/` + backup |
@@ -247,7 +247,7 @@ backend-direct login: OK token=eyJ...
 
 ### No browser
 
-1. Abrir http://nsys.ddns.net:3020/login  
+1. Abrir http://hubswp.ddns.net:3020/login  
 2. F12 → Network → `login-context` e `login`  
 3. Verificar header `X-Tenant-Slug: hubsaas` (não `demo-alpha`)  
 4. Login com `platform@hubsaas.local` / `demo1234`
@@ -268,7 +268,7 @@ backend-direct login: OK token=eyJ...
 
 - [ ] Login usa tenant de `login-context`, não slug fixo obsoleto
 - [ ] `.env.example` frontend: `VITE_DEFAULT_TENANT_SLUG=hubsaas` ou vazio
-- [ ] `vite.config.ts`: proxy para `/v1/` + `allowedHosts` com `nsys.ddns.net`
+- [ ] `vite.config.ts`: proxy para `/v1/` + `allowedHosts` com `hubswp.ddns.net`
 - [ ] `auth.service.ts`: `jti` no refresh token
 - [ ] Mensagem de erro diferenciada (tenant vs senha)
 - [ ] Documentação de deploy VPS (este arquivo ou README)

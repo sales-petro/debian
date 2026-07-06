@@ -43,6 +43,10 @@ bash ~/debian/scripts/deploy/apply-vps-env.sh
 python3 ~/debian/scripts/login/test-vite-proxy.py
 bash ~/debian/debian test-vite-proxy
 
+# No-IP / DDNS hubswp.ddns.net
+bash ~/debian/debian install-noip-ddclient hubswp.ddns.net
+bash ~/debian/debian configure-hubsaas-ddns http://hubswp.ddns.net:3020
+
 # PostgreSQL remoto
 bash ~/debian/scripts/postgres/setup-postgres-remote.sh
 ```
@@ -52,7 +56,7 @@ bash ~/debian/scripts/postgres/setup-postgres-remote.sh
 | Feature | Pasta | Scripts |
 |---------|-------|---------|
 | Deploy | `scripts/deploy/` | `update.sh`, `apply-vps-env.sh`, `run-update.sh` |
-| Env | `scripts/env/` | `configure-hubsaas-env.sh`, `configure-hubsaas-ddns.sh`, `apply-backend-env-ngrok.sh` |
+| Env | `scripts/env/` | `configure-hubsaas-env.sh`, `configure-hubsaas-ddns.sh`, `install-noip-ddclient.sh`, `apply-backend-env-ngrok.sh` |
 | Ngrok | `scripts/ngrok/` | `install-ngrok-dual.sh`, `ngrok-port.sh`, `enable-ngrok-boot.sh`, … |
 | Nginx | `scripts/nginx/` | `install-nginx.sh`, `setup-nginx-stack.sh`, `activate-ngrok-nginx.sh` |
 | Postgres | `scripts/postgres/` | `setup-postgres-remote.sh`, `diag-postgres.sh` |

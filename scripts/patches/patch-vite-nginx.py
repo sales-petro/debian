@@ -29,6 +29,7 @@ if old_proxy in content:
 
 old_hosts = "      allowedHosts: ['nsys.ddns.net'],"
 new_hosts = """      allowedHosts: [
+        'hubswp.ddns.net',
         'nsys.ddns.net',
         'prepaid-untying-capsule.ngrok-free.dev',
         '.ngrok-free.dev',
@@ -42,10 +43,18 @@ elif ".ngrok-free.dev" not in content:
         "      strictPort: true,",
         """      strictPort: true,
       allowedHosts: [
+        'hubswp.ddns.net',
         'prepaid-untying-capsule.ngrok-free.dev',
         '.ngrok-free.dev',
         'localhost',
       ],""",
+        1,
+    )
+
+if "'hubswp.ddns.net'" not in content and "      allowedHosts: [\n" in content:
+    content = content.replace(
+        "      allowedHosts: [\n",
+        "      allowedHosts: [\n        'hubswp.ddns.net',\n",
         1,
     )
 
