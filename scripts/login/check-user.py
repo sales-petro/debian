@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
+import os
 import subprocess
 
 EMAIL = "platform@hubsaas.local"
-env = {"PGPASSWORD": "postgres"}
+
+def psql_env():
+    pgpass = os.environ.get("PGPASSWORD")
+    if not pgpass:
+        raise SystemExit("Defina PGPASSWORD (senha do Postgres) antes de rodar este script.")
+    return {**os.environ, "PGPASSWORD": pgpass}
 
 def psql(sql):
     r = subprocess.run(
         ["psql", "-h", "127.0.0.1", "-U", "postgres", "-d", "hubsaas", "-c", sql],
         capture_output=True,
         text=True,
-        env={**subprocess.os.environ, **env},
+        env=psql_env(),
     )
     return r.stdout + r.stderr
 

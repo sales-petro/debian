@@ -9,8 +9,16 @@
 
 set -euo pipefail
 
-BACKEND_TOKEN="${1:-3F5idwfF14BcxOEc3zdmV2XuX8D_5hDKYJfmbdakMkzp7HCvP}"
-FRONTEND_TOKEN="${2:-3FBjaECT0CxGUiX80iejizrXLOp_678UUSQTi5s4nkpwHtPCy}"
+BACKEND_TOKEN="${1:-${NGROK_BACKEND_TOKEN:-}}"
+FRONTEND_TOKEN="${2:-${NGROK_FRONTEND_TOKEN:-}}"
+
+if [ -z "$BACKEND_TOKEN" ] || [ -z "$FRONTEND_TOKEN" ]; then
+  echo "Uso: $0 TOKEN_BACKEND TOKEN_FRONTEND"
+  echo "  ou: NGROK_BACKEND_TOKEN=... NGROK_FRONTEND_TOKEN=... $0"
+  echo ""
+  echo "Obtenha tokens em https://dashboard.ngrok.com/get-started/your-authtoken"
+  exit 1
+fi
 
 BIN_DIR="$HOME/bin"
 CONFIG_DIR="$HOME/.config/ngrok"

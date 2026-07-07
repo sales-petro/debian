@@ -9,7 +9,7 @@ Ajusta `.env` em `~/hubsaas/apps/{backend,frontend}/`.
 | `install-noip-ddclient.sh [HOST]` | instala `ddclient` para atualizar `hubswp.ddns.net` no No-IP |
 | `apply-backend-env-ngrok.sh [URL]` | só vars fiscais/Shopee no backend |
 
-Templates VPS: `env-servidor/apps/*/.env` (gitignored).
+Templates VPS: `env-servidor.example/` (versionado). Copie para `env-servidor/` (gitignored) e preencha segredos.
 
 ## No-IP (`hubswp.ddns.net`)
 

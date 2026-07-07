@@ -1,14 +1,27 @@
-# Templates .env do VPS
+# env-servidor/ — segredos locais (gitignored)
 
-Esta pasta é **gitignored** exceto os `.env.example`.
+Esta pasta **não vai para o git**. Contém os `.env` reais do VPS.
 
-Copie os exemplos para `.env` localmente, preencha segredos e use:
+## Setup inicial
 
 ```bash
-bash scripts/deploy/apply-vps-env.sh   # no VPS
+cp -r env-servidor.example env-servidor
+cp env-servidor.example/apps/backend/.env.example env-servidor/apps/backend/.env
+cp env-servidor.example/apps/frontend/.env.example env-servidor/apps/frontend/.env
 ```
 
-| Arquivo | Destino no VPS |
-|---------|----------------|
-| `apps/backend/.env.example` | `~/hubsaas/apps/backend/.env` |
-| `apps/frontend/.env.example` | `~/hubsaas/apps/frontend/.env` |
+# Templates versionados: [env-servidor.example/README.md](../env-servidor.example/README.md)
+
+## Arquivos locais (gitignored)
+
+| Arquivo | Conteúdo |
+|---------|----------|
+| `apps/backend/.env` | Postgres, JWT, fiscal, URLs ngrok/ddns |
+| `apps/frontend/.env` | Vite, tenant slug |
+| `ngrok.env` | `NGROK_BACKEND_TOKEN`, `NGROK_FRONTEND_TOKEN` |
+
+Aplicar no VPS:
+
+```bash
+bash scripts/deploy/apply-vps-env.sh
+```

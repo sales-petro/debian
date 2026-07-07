@@ -175,7 +175,7 @@ PORT=3021
 DATABASE_HOST=127.0.0.1
 DATABASE_PORT=5432
 DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=<senha>
+# Senha: definir DATABASE_PASSWORD no .env real (env-servidor/, gitignored)
 DATABASE_NAME=hubsaas
 REDIS_URL=redis://127.0.0.1:6379
 FRONTEND_URL=http://hubswp.ddns.net:3020

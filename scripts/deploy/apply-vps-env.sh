@@ -18,6 +18,12 @@ DST_FRONTEND="$HUBSAAS_DIR/apps/frontend/.env"
 for f in "$SRC_BACKEND" "$SRC_FRONTEND"; do
   if [ ! -f "$f" ]; then
     echo "ERRO: $f não encontrado"
+    echo ""
+    echo "Crie a pasta local com segredos (gitignored):"
+    echo "  cp -r $DEBIAN_DIR/env-servidor.example $DEBIAN_DIR/env-servidor"
+    echo "  cp env-servidor.example/apps/backend/.env.example env-servidor/apps/backend/.env"
+    echo "  cp env-servidor.example/apps/frontend/.env.example env-servidor/apps/frontend/.env"
+    echo "  # edite env-servidor/apps/*/.env e preencha senhas"
     exit 1
   fi
 done

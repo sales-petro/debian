@@ -55,7 +55,7 @@ Se `update.sh` restaurar `demo-alpha`, rodar `apply-vps-env.sh` de novo.
 ## Restrições
 
 - **Não modificar** código em `~/hubsaas` para fixes de infra — usar `.env`, scripts debian, patches documentados em `scripts/patches/`
-- `env-servidor/` contém segredos — nunca commitar
+- `env-servidor/` contém segredos — nunca commitar; use `env-servidor.example/` como template
 - Após reorganizar paths ngrok, reinstalar units: `bash install-ngrok-dual.sh TOKEN_BE TOKEN_FE`
 
 ## Documentação

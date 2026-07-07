@@ -2,18 +2,31 @@
 # Requer: ngrok no PATH e NSSM (https://nssm.cc/)
 #
 # Uso (PowerShell como Admin):
+#   $env:NGROK_BACKEND_TOKEN = '...'
+#   $env:NGROK_FRONTEND_TOKEN = '...'
 #   .\install-ngrok-windows.ps1
 
 $ErrorActionPreference = 'Stop'
 
+$backendToken  = $env:NGROK_BACKEND_TOKEN
+$frontendToken = $env:NGROK_FRONTEND_TOKEN
+
+if (-not $backendToken -or -not $frontendToken) {
+    throw @'
+Defina os tokens antes de executar:
+  $env:NGROK_BACKEND_TOKEN = "..."
+  $env:NGROK_FRONTEND_TOKEN = "..."
+'@
+}
+
 $services = @{
     'hubsaas-backend' = @{
-        Authtoken = '3F5idwfF14BcxOEc3zdmV2XuX8D_5hDKYJfmbdakMkzp7HCvP'
+        Authtoken = $backendToken
         Port      = 3021
         WebAddr   = '127.0.0.1:4040'
     }
     'sales-petro-frontend' = @{
-        Authtoken = '3FBjaECT0CxGUiX80iejizrXLOp_678UUSQTi5s4nkpwHtPCy'
+        Authtoken = $frontendToken
         Port      = 3020
         WebAddr   = '127.0.0.1:4041'
     }

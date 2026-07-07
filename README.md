@@ -16,7 +16,8 @@ debian/
 ├── README.md
 ├── .cursor/                # plans + skills Cursor
 ├── docs/                   # documentação
-├── env-servidor/           # .env reais gitignored; .env.example versionado
+├── env-servidor.example/   # templates .env (sem segredos)
+├── env-servidor/           # .env reais — gitignored (só README versionado)
 ├── scripts/                # implementação por feature
 │   ├── deploy/
 │   ├── env/
@@ -84,8 +85,11 @@ Cada pasta tem `README.md` com detalhes.
 - [docs/deploy/hubsaas-vps-login.md](docs/deploy/hubsaas-vps-login.md)
 - [docs/system/create-admin-user.md](docs/system/create-admin-user.md)
 - [docs/system/hubsaas-operator.md](docs/system/hubsaas-operator.md) — igor opera como celio
+- [docs/system/secrets-remediation.md](docs/system/secrets-remediation.md) — vazamento de segredos
 - [.cursor/skills/hubsaas-vps-deploy/SKILL.md](.cursor/skills/hubsaas-vps-deploy/SKILL.md)
 
 ## O que não vai para o git
 
-Ver [.gitignore](.gitignore): `env-servidor/**/.env`, segredos, logs, tokens ngrok.
+Ver [.gitignore](.gitignore): pasta `env-servidor/` (segredos), tokens ngrok, logs.
+
+Setup local: `cp -r env-servidor.example env-servidor` e preencha `env-servidor/apps/*/.env`.

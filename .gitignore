@@ -1,7 +1,8 @@
-# Templates VPS — versionar README e .env.example; nunca os .env reais
-env-servidor/**/.env
-env-servidor/**/.env.*
-!env-servidor/**/.env.example
+# env-servidor — .env reais com segredos (NUNCA versionar conteúdo)
+env-servidor/*
+!env-servidor/README.md
+
+# Templates versionados ficam em env-servidor.example/
 
 # Dependencies
 node_modules/
@@ -65,6 +66,7 @@ ngrok-secrets.*
 .ngrok/
 ngrok.yml
 **/ngrok.yml
+**/.config/ngrok/
 
 # Cache local
 .cache/
